@@ -7,17 +7,16 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
-app.use(express.json());
-app.use(cors());
 
 const db = knex({
   client: 'pg',
   connection: {
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-    rejectUnauthorized: false
-  }
+    ssl: true
 });
+
+app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => { res.send('It is working!') })
 app.post('/signin', signin.handleSignin(db, bcrypt))
